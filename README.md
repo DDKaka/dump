@@ -1,14 +1,17 @@
--- PHP Dump
+# PHP Dump
 
---- To dump data, you just have to add the following code:
+## To dump data, you just have to add the following code:
 
+```
 $dump = new Dump();
 $dump->Output($data);
+```
 
 
 
---- Full example with test data:
+## Full example with test data:
 
+```
 $object = new stdClass();
 $object->test_1 = "Test 1 Val";
 $object->test_2 = "Test 2 Val";
@@ -35,3 +38,4 @@ $data = [
 
 $dump = new Dump();
 $dump->Output($data);
+```
