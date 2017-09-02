@@ -1,5 +1,11 @@
 # PHP Dump
 
+## Example screenshot:
+
+![Dump](https://nocoded.com/assets/img/projects/dump.png)
+
+
+
 ## To dump data, you just have to add the following code:
 
 ```
