@@ -4,8 +4,8 @@
 
         function Table($results) {
             $var_type = getType($results);
-            $rows = 0;
-            $html = '<table class="dump_table CLASS_NAME"><tbody><tr><th class="dump_caption CLASS_NAME" colspan="100%" onClick="javascript:dump_toggleTable(this);">INNER_TEXT</th></tr>';
+            $rows     = 0;
+            $html     = '<table class="dump_table CLASS_NAME"><tbody><tr><th class="dump_caption CLASS_NAME" colspan="100%" onClick="javascript:dump_toggleTable(this);">INNER_TEXT</th></tr>';
 
             if ($var_type == "array" && $this->isStruct($results)) {
                 $var_type = "struct";
@@ -49,7 +49,10 @@
                             $html .= '<tr><th class="header ' . $var_type . '">' . $num . '</th>';
 
                             for ($i = 0; $i < count($columns); $i++) {
-                                $html .= '<td>' . $row[$columns[$i]] . '</td>';
+                                $content = $row[$columns[$i]];
+                                $content = str_replace("<", "&lt;", $content);
+                                $content = str_replace(">", "&gt;", $content);
+                                $html .= '<td>' . $content . '</td>';
                             }
 
                             $html .= '</tr>';
@@ -70,6 +73,14 @@
                         }
                     }
 
+                    $rows++;
+                    break;
+
+                case "string":
+                    $results = str_replace("<", "&lt;", $results);
+                    $results = str_replace(">", "&gt;", $results);
+
+                    $html .= $this->Row($var_type, $results);
                     $rows++;
                     break;
 
@@ -97,7 +108,7 @@
 
         function Row($label, $content, $class = "") {
             $var_type = getType($content);
-            $html = '<tr><th class="header ' . $class . '" onClick=javascript:dump_toggleRow(this);">' . $label . '</th><td>';
+            $html     = '<tr><th class="header ' . $class . '" onClick=javascript:dump_toggleRow(this);">' . $label . '</th><td>';
 
             switch ($var_type) {
                 case "struct":
@@ -139,6 +150,7 @@
 
                     table.dump_table {
                         border-collapse: collapse;
+                        background-color: white;
                         font-size: 7pt;
                     }
 
@@ -271,13 +283,17 @@
             return array_keys($array) !== range(0, count($array) - 1);
         }
 
-        function Output($var) {
+        function Output($var, $exit = false) {
             $dump = new Dump();
 
             echo $this->Scripts() .
                  '<div class="dump_wrap">' .
                  $this->Table($var) .
                  '</div>';
+
+            if ($exit) {
+                exit();
+            }
 
             return true;
         }
