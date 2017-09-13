@@ -1,8 +1,8 @@
 {
   "name": "DDKaka/dump",
   "autoload": {
-    "psr-0" : {
-      "DDkaka\\Dump" : "src"
+    "psr-4": {
+      "DDKaka\\Dump\\": "src/"
     }
   }
 }
